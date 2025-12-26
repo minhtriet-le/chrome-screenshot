@@ -1,114 +1,151 @@
 # Screenshot Saver - Chrome Extension
 
-Extension Chrome để chụp màn hình và lưu vào folder được chọn.
+A modern Chrome extension to capture screenshots with automatic URL overlay and save to a custom folder.
 
-## Tính năng
+## Features
 
-- 📷 **Chụp vùng nhìn thấy**: Chụp phần hiển thị hiện tại của trang web
-- 📄 **Chụp toàn trang**: Chụp toàn bộ trang web (bao gồm phần cuộn)
-- 📁 **Tùy chỉnh folder**: Chọn folder lưu trữ trong thư mục Downloads
-- 🏷️ **Tùy chỉnh tên file**: Đặt tiền tố cho tên file screenshot
-- 🎨 **Chọn định dạng**: Hỗ trợ PNG và JPEG
+- 📷 **Quick Capture**: Capture the visible area of any webpage
+- 🔗 **URL Overlay**: Automatically adds the page URL to the bottom of each screenshot
+- 📁 **Custom Folder**: Choose your preferred save location in Downloads
+- 🏷️ **Custom Prefix**: Set your own file naming prefix
+- 🎨 **Format Options**: Support for PNG and JPEG formats
+- ⚡ **Auto-save**: Option to save without confirmation dialog
+- 🎯 **Modern UI**: Clean, neutral-toned interface
 
-## Cài đặt
+## Installation
 
-### Cách 1: Developer Mode (Khuyến nghị)
+### Install from Source
 
-1. Mở Chrome và truy cập `chrome://extensions/`
-2. Bật **Developer mode** (góc trên bên phải)
-3. Click **Load unpacked**
-4. Chọn folder `chrome-screenshot`
-5. Extension đã sẵn sàng sử dụng!
+1. Clone or download this repository:
+   ```bash
+   git clone https://github.com/minhtriet-le/chrome-screenshot.git
+   ```
 
-### Cách 2: Build từ source
+2. Open Chrome and navigate to `chrome://extensions/`
 
-```bash
-# Clone hoặc download source code
-cd chrome-screenshot
+3. Enable **Developer mode** (toggle in top-right corner)
 
-# Load extension như hướng dẫn ở Cách 1
-```
+4. Click **Load unpacked** and select the `chrome-screenshot` folder
 
-## Hướng dẫn sử dụng
+5. The extension is now ready to use!
 
-1. **Cài đặt ban đầu**
-   - Click vào icon extension trên thanh công cụ
-   - Nhập tên folder muốn lưu (mặc định: "screenshots")
-   - Chọn tiền tố tên file (mặc định: "screenshot")
-   - Chọn định dạng ảnh (PNG hoặc JPEG)
+## Usage
 
-2. **Chụp màn hình**
-   - Click "📷 Chụp vùng nhìn thấy" để chụp phần hiện tại
-   - Click "📄 Chụp toàn trang" để chụp toàn bộ trang web
-   - File sẽ tự động được lưu vào `Downloads/[folder-name]/`
+### Initial Setup
 
-3. **Quản lý settings**
-   - Tất cả cài đặt được lưu tự động
-   - Click "Đổi" để thay đổi folder lưu trữ
-   - Thay đổi tiền tố và định dạng được lưu ngay lập tức
+1. Click the extension icon in your Chrome toolbar
+2. Configure your preferences:
+   - **Save Folder**: Enter folder name (default: "screenshots")
+   - **File Prefix**: Set file name prefix (default: "screenshot")
+   - **Format**: Choose PNG or JPEG
+   - **Auto-save**: Toggle automatic saving without confirmation
 
-## Cấu trúc file
+### Taking Screenshots
+
+1. Navigate to any webpage
+2. Click the extension icon
+3. Click **"📷 Capture"** button
+4. Screenshot will be saved to `Downloads/[your-folder]/`
+5. The URL of the page will be overlaid at the bottom of the screenshot
+
+### Settings
+
+All settings are automatically saved and persisted across sessions:
+- Click **"Change"** to modify the save folder
+- Adjust file prefix and format as needed
+- Toggle auto-save to control confirmation dialog
+
+## File Structure
 
 ```
 chrome-screenshot/
-├── manifest.json          # Cấu hình extension
-├── popup.html            # Giao diện popup
-├── popup.js              # Logic chụp màn hình
+├── manifest.json          # Extension configuration
+├── popup.html            # User interface
+├── popup.js              # Core functionality
 ├── popup.css             # Styling
-├── icons/                # Icon extension
-│   ├── icon16.svg
-│   ├── icon48.svg
-│   └── icon128.svg
-└── README.md             # Tài liệu này
+├── icons/                # Extension icons
+│   ├── icon16.png
+│   ├── icon48.png
+│   └── icon128.png
+├── .gitignore            # Git ignore rules
+└── README.md             # Documentation
 ```
 
 ## Permissions
 
-Extension yêu cầu các quyền sau:
+The extension requires the following permissions:
 
-- **activeTab**: Truy cập tab hiện tại để chụp màn hình
-- **downloads**: Lưu file vào Downloads
-- **storage**: Lưu cài đặt người dùng
-- **scripting**: Thực thi script để chụp toàn trang
+- **activeTab**: Access current tab to capture screenshots
+- **downloads**: Save files to Downloads folder
+- **storage**: Persist user settings
+- **scripting**: Execute scripts for URL overlay functionality
 
-## Định dạng tên file
+## File Naming
 
-File được đặt tên theo format:
+Screenshots are automatically named using the format:
 ```
 [prefix]_YYYY-MM-DDTHH-MM-SS.[format]
 ```
 
-Ví dụ: `screenshot_2025-12-26T10-30-45.png`
+Example: `screenshot_2025-12-26T14-30-45.png`
 
-## Lưu ý
+If a file with the same name exists, Chrome will automatically append a number.
 
-- Screenshot được lưu trong folder Downloads của hệ thống
-- Folder sẽ được tạo tự động nếu chưa tồn tại
-- Chức năng chụp toàn trang hiện ở chế độ đơn giản (chụp phần đầu tiên)
-- Đối với trang web rất dài, có thể cần cuộn thủ công và chụp nhiều lần
+## Technical Details
 
-## Phát triển
+### URL Overlay
 
-### Cải tiến trong tương lai
+The extension uses HTML5 Canvas to:
+1. Draw the captured screenshot
+2. Add a semi-transparent dark overlay at the bottom
+3. Render the page URL in white text
+4. Automatically truncate long URLs to fit
+5. Export the final image with overlay
 
-- [ ] Ghép ảnh cho chụp toàn trang hoàn chỉnh
-- [ ] Chụp vùng tùy chọn (selection tool)
+### Color Scheme
+
+Modern neutral gray palette:
+- Background gradient: `#6B7280` → `#374151`
+- Primary button: `#4B5563` → `#1F2937`
+- Accent colors: Neutral gray tones
+
+## Future Enhancements
+
+Potential features for future development:
+
+- [ ] Full-page screenshot stitching
+- [ ] Region selection tool
 - [ ] Keyboard shortcuts
-- [ ] Annotation tools (vẽ, text)
+- [ ] Annotation tools (draw, text, arrows)
 - [ ] Cloud storage integration
-- [ ] History của screenshots
+- [ ] Screenshot history viewer
+- [ ] Batch capture mode
+- [ ] Custom overlay templates
 
-### Báo lỗi
+## Troubleshooting
 
-Nếu gặp vấn đề, vui lòng kiểm tra:
-1. Extension đã được cài đặt đúng chưa
-2. Các quyền đã được cấp đầy đủ chưa
-3. Chrome đã được cập nhật lên version mới nhất chưa
+If you encounter issues:
 
-## Giấy phép
+1. **Extension not working**: Verify all permissions are granted
+2. **Files not saving**: Check Downloads folder permissions
+3. **URL not showing**: Ensure scripting permission is enabled
+4. **Reload extension**: Go to `chrome://extensions/` and click the reload icon
 
-MIT License - Tự do sử dụng và chỉnh sửa
+## Contributing
+
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest new features
+- Submit pull requests
+
+## License
+
+MIT License - Feel free to use and modify
 
 ## Credits
 
-Phát triển bởi GitHub Copilot
+Developed by **Le Minh Triet** in collaboration with **GitHub Copilot**
+
+---
+
+⭐ If you find this extension useful, please give it a star on GitHub!
